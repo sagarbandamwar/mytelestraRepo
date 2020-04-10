@@ -1,6 +1,7 @@
 package com.example.livedata.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.livedata.data.Blog
 import com.example.livedata.R
+import com.example.livedata.communication.RecyclerViewScrollListener
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
@@ -17,11 +19,17 @@ class AdapterRow constructor(mContext: Context, mArrayListString: ArrayList<Blog
 
     var mContext: Context = mContext
     var mArrayListString: ArrayList<Blog> = mArrayListString
+    var recyclerViewScrollListener: RecyclerViewScrollListener? = null
+    var recyclerScroll: RecyclerView.OnScrollListener? = null
 
-
-    fun Adapter(mContext: Context, mArrayListString: ArrayList<Blog>) {
+    fun AdapterRow(
+        mContext: Context,
+        mArrayListString: ArrayList<Blog>,
+        recyclerViewScrollListener: RecyclerViewScrollListener
+    ) {
         this.mContext = mContext
         this.mArrayListString = mArrayListString
+        this.recyclerViewScrollListener = recyclerViewScrollListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -30,28 +38,29 @@ class AdapterRow constructor(mContext: Context, mArrayListString: ArrayList<Blog
     }
 
     override fun getItemCount(): Int {
-        return mArrayListString.size
+        return mArrayListString.size  // it wiil return size of a arraylist
     }
 
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val titles = mArrayListString.get(position)
 
-        holder.mTitle.text = titles.getmTitle()
+        var mTitle: String? = titles.getmTitle()
+        holder.mTitle.text = mTitle
         holder.mSubTitle.text = titles.getmDescription()
-        val mImageUrl : String? = titles.getmImageHref()
+        val mImageUrl: String? = titles.getmImageHref()
 
         //picasso.setIndicatorsEnabled(true)
         mImageUrl.let {
 
             Picasso.get().load(mImageUrl)
                 .placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_foreground).into(holder.mImage,object : Callback {
+                .error(R.drawable.ic_launcher_foreground).into(holder.mImage, object : Callback {
                     override fun onSuccess() {
 
                     }
 
-                    override fun onError(e:Exception) {
+                    override fun onError(e: Exception) {
                         e.printStackTrace()
                     }
 

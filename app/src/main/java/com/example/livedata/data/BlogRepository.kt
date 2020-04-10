@@ -9,22 +9,22 @@ import retrofit2.Response
 import java.util.*
 
 class BlogRepository(private val application: Application) {
-    private var movies = ArrayList<Blog>()
+    private var blogs = ArrayList<Blog>()
     private val mutableLiveData =
         MutableLiveData<List<Blog>>()
 
     fun getMutableLiveData(): MutableLiveData<List<Blog>> {
         val apiService = RetrofitInstance.apiService
         val call = apiService.popularBlog
-        call.enqueue(object : Callback<BlogWrapper?> {
+        call?.enqueue(object : Callback<BlogWrapper?> {
             override fun onResponse(
                 call: Call<BlogWrapper?>,
                 response: Response<BlogWrapper?>
             ) {
                 val mBlogWrapper = response.body()
                 if (mBlogWrapper != null && mBlogWrapper.getmRows() != null) {
-                    movies = mBlogWrapper.getmRows() as ArrayList<Blog>
-                    mutableLiveData.value = movies
+                    blogs = mBlogWrapper.getmRows() as ArrayList<Blog>
+                    mutableLiveData.value = blogs
                 }
             }
 

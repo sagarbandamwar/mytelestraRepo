@@ -7,10 +7,12 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.livedata.MainApplication
 import com.example.livedata.R
 import com.example.livedata.adapter.AdapterRow
 import com.example.livedata.data.Blog
-import com.example.livedata.util.AppConstants
+import com.example.livedata.util.CommonUtil
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -22,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        mainViewModel = ViewModelProviders.of(this@MainActivity).get(MainViewModel::class.java)
 
         sendGet()
 
@@ -35,11 +37,12 @@ class MainActivity : AppCompatActivity() {
         swipeRefreshLayout.setColorSchemeColors(Color.WHITE)
 
         swipeRefreshLayout.setOnRefreshListener {
-            if (AppConstants.isOnline(this)) {
+            if (CommonUtil.isOnline(this@MainActivity)) {
                 sendGet()
                 swipeRefreshLayout.isRefreshing = false
             } else {
-                AppConstants.showDialog("Connect to Internet" ,this)
+                // it will show popup if not connected to internet
+                CommonUtil.showDialog(getString(R.string.internet_message) ,this)
                 swipeRefreshLayout.isRefreshing = false
             }
         }
@@ -47,13 +50,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendGet() {
+        // it eill fetch the updated data from view model
         swipeRefreshLayout.setRefreshing(true)
-        mainViewModel.allBlog
-            .observe(this,
-                Observer { blogList ->
-                    swipeRefreshLayout.setRefreshing(false)
-                    prepareRecyclerView(blogList)
-                })
+        if (CommonUtil.isOnline(MainApplication.applicationContext())) {
+            mainViewModel.allBlog
+                .observe(this,
+                    Observer { blogList ->
+                        swipeRefreshLayout.setRefreshing(false)
+                        prepareRecyclerView(blogList)
+                    })
+        }else{
+            CommonUtil.showDialog(getString(R.string.internet_message) ,this)
+            swipeRefreshLayout.isRefreshing = false
+        }
     }
 
     private fun prepareRecyclerView(blogList: List<Blog>) {
@@ -65,5 +74,23 @@ class MainActivity : AppCompatActivity() {
         )
         recyclerview.adapter = mBlogAdapter
         mBlogAdapter.notifyDataSetChanged()
+
+        // this scroll listener will update the actionbar title
+
+        recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                var position : Int = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
+                if (position>0){
+
+                    if (blogList.get(position).mTitle.equals("null"))
+                    { supportActionBar?.title= "No Title"
+                    }else{
+                        supportActionBar?.title= blogList.get(position).mTitle
+                    }
+                }
+
+            }
+        })
     }
 }

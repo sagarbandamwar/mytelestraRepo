@@ -7,12 +7,15 @@ import android.view.Window
 import android.widget.Button
 import android.widget.TextView
 import com.example.livedata.R
+import okhttp3.Cache
 
-class AppConstants {
+class CommonUtil {
+
     companion object {
-        fun isOnline(context: Context): Boolean {
+
+        fun isOnline(context: Context?): Boolean {
             val connectivityManager =
-                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkInfo = connectivityManager.activeNetworkInfo
             return networkInfo != null && networkInfo.isConnected
         }
@@ -33,6 +36,7 @@ class AppConstants {
             dialog.show()
 
         }
+
     }
 
 }

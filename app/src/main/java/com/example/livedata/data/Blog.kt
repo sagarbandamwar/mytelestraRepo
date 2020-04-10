@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName
 
 class Blog {
     @SerializedName("title")
-    private var mTitle: String? = null
+     var mTitle: String? = null
 
     @SerializedName("description")
-    private var mDescription: String? = null
+     var mDescription: String? = null
 
     @SerializedName("imageHref")
-    private var mImageHref: String? = null
+     var mImageHref: String? = null
     fun getmTitle(): String? {
         return mTitle
     }
