@@ -2,9 +2,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="300dp"
         android:layout_height="160dp"
         android:layout_marginLeft="15dp"
@@ -15,27 +16,37 @@
 
         <TextView
             android:id="@+id/tvTitle"
+            android:textSize="20dp"
+            android:textColor="@color/text_subtitle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/app_name" />
+            android:text="@string/telstra" />
 
         <TextView
             android:id="@+id/tvBody"
+            android:textSize="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text=""
-            android:textColor="#000000" />
+            android:fontFamily=""
+            android:textColor="@color/colorPrimary" />
 
         <Button
                 android:id="@+id/btn_yes"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvBody"
             android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
             android:background="@android:color/white"
             android:clickable="true"
-            android:text="Yes"
-            android:textColor="#5DBCD2"
+            android:text="@string/text_yes"
+            android:textColor="@color/color_blue"
             android:textStyle="bold" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

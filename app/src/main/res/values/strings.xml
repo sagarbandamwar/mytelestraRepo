@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">LiveData</string>
+    <string name="telstra">TELSTRA</string>
+    <string name="text_yes">Yes</string>
 </resources>

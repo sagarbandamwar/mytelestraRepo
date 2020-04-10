@@ -1,4 +1,4 @@
-package com.example.livedata
+package com.example.livedata.ui
 
 import android.graphics.Color
 import android.os.Bundle
@@ -7,6 +7,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.livedata.R
+import com.example.livedata.adapter.AdapterRow
+import com.example.livedata.data.Blog
+import com.example.livedata.util.AppConstants
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -55,7 +59,10 @@ class MainActivity : AppCompatActivity() {
     private fun prepareRecyclerView(blogList: List<Blog>) {
         val linearLayoutManager = LinearLayoutManager(applicationContext)
         recyclerview.layoutManager = linearLayoutManager
-        val mBlogAdapter = AdapterRow(this@MainActivity, blogList as ArrayList<Blog>)
+        val mBlogAdapter = AdapterRow(
+            this@MainActivity,
+            blogList as ArrayList<Blog>
+        )
         recyclerview.adapter = mBlogAdapter
         mBlogAdapter.notifyDataSetChanged()
     }
