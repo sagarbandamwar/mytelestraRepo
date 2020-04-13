@@ -7,20 +7,20 @@ import android.view.Window
 import android.widget.Button
 import android.widget.TextView
 import com.example.livedata.R
-import okhttp3.Cache
 
+// class for showing dialog and to check if user is connected to internet or not
 class CommonUtil {
 
     companion object {
 
-        fun isOnline(context: Context?): Boolean {
+        fun isOnline(context: Context?): Boolean {   // is online method will return user is connected or not
             val connectivityManager =
                 context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkInfo = connectivityManager.activeNetworkInfo
             return networkInfo != null && networkInfo.isConnected
         }
 
-        fun showDialog(title: String, context: Context) {
+        fun showDialog(title: String, context: Context) { // this method will show dialog
             val dialog = Dialog(context)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.setCancelable(false)

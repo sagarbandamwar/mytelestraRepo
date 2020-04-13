@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.livedata">
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />  // to get the internet status
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name=".MainApplication"
@@ -13,7 +12,7 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/> // to load the images need apache certificate in latest
         <activity
             android:name=".ui.MainActivity">
             <intent-filter>

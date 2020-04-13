@@ -24,10 +24,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mainViewModel = ViewModelProviders.of(this@MainActivity).get(MainViewModel::class.java)
+        mainViewModel = ViewModelProviders.of(this@MainActivity).get(MainViewModel::class.java)  // creating reference of view model class
 
-        sendGet()
+        sendGet()  // calls the api and fetch the data from the server
 
+
+        // this method will set the color to swi[pe refresh progressbar
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
             ContextCompat.getColor(
                 this,
@@ -36,31 +38,31 @@ class MainActivity : AppCompatActivity() {
         )
         swipeRefreshLayout.setColorSchemeColors(Color.WHITE)
 
+       // this layout will get the fresh data whenever user swipes the screen
         swipeRefreshLayout.setOnRefreshListener {
             if (CommonUtil.isOnline(this@MainActivity)) {
                 sendGet()
-                swipeRefreshLayout.isRefreshing = false
+                swipeRefreshLayout.isRefreshing = false  // once the data is fetched loading view will stop
             } else {
-                // it will show popup if not connected to internet
-                CommonUtil.showDialog(getString(R.string.internet_message) ,this)
+                CommonUtil.showDialog(getString(R.string.internet_message) ,this) // it will show popup if not connected to internet
                 swipeRefreshLayout.isRefreshing = false
             }
         }
 
     }
 
+    // it will fetch the updated data from view model
     private fun sendGet() {
-        // it eill fetch the updated data from view model
         swipeRefreshLayout.setRefreshing(true)
         if (CommonUtil.isOnline(MainApplication.applicationContext())) {
             mainViewModel.allBlog
                 .observe(this,
-                    Observer { blogList ->
+                    Observer { blogList -> // if there is any new data over api observer will update automatically
                         swipeRefreshLayout.setRefreshing(false)
-                        prepareRecyclerView(blogList)
+                        prepareRecyclerView(blogList)   // this method will setup recycler view to activity with help of layout manager
                     })
         }else{
-            CommonUtil.showDialog(getString(R.string.internet_message) ,this)
+            CommonUtil.showDialog(getString(R.string.internet_message) ,this)  // it will show popup to connect to internet
             swipeRefreshLayout.isRefreshing = false
         }
     }
@@ -76,20 +78,17 @@ class MainActivity : AppCompatActivity() {
         mBlogAdapter.notifyDataSetChanged()
 
         // this scroll listener will update the actionbar title
-
         recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                var position : Int = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
+                var position : Int = linearLayoutManager.findFirstCompletelyVisibleItemPosition()  // capturing the position of view to update the title bar
                 if (position>0){
-
-                    if (blogList.get(position).mTitle.equals("null"))
-                    { supportActionBar?.title= "No Title"
+                    if (blogList.get(position).title.equals("null"))
+                    { supportActionBar?.title= "No Title"                // if there is no title we are setting No title as a text instead showing null
                     }else{
-                        supportActionBar?.title= blogList.get(position).mTitle
+                        supportActionBar?.title= blogList.get(position).title    // updating the title according to api response
                     }
                 }
-
             }
         })
     }

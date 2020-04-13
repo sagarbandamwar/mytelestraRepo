@@ -3,6 +3,8 @@ package com.example.livedata
 import android.app.Application
 import android.content.Context
 
+
+// application class will return context of the application
 class MainApplication : Application() {
 
     init {

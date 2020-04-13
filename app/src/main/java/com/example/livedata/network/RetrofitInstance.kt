@@ -22,18 +22,18 @@ object RetrofitInstance {
     val cacheSize = (10 * 1024 * 1024).toLong() // we are declaring our cache size as 10MB
     val myCache = Cache(MainApplication.applicationContext().cacheDir, cacheSize)
 
-    val okHttpClient = OkHttpClient.Builder()
+    val okHttpClient = OkHttpClient.Builder()   // creating reference forokhttp client
         .addInterceptor( provideOfflineCacheInterceptor())
         .addNetworkInterceptor( provideCacheInterceptor())
         .cache(provideCache())
         .build()
-    private var retrofit: Retrofit? = null
+    private var retrofit: Retrofit? = null   // reference for retrofit
     val apiService: RestApiService
         get() {
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())  // gson converter for json data
                     .client(okHttpClient) // by adding okhhtpClient we are enabling caching in applikcation
                     .build()
             }
@@ -41,13 +41,13 @@ object RetrofitInstance {
         }
 
 
-    fun provideOfflineCacheInterceptor(): Interceptor? {
+    fun provideOfflineCacheInterceptor(): Interceptor? {  // class for cache offline interceptor
         return object : Interceptor {
             @Throws(IOException::class)
             override fun intercept(chain: Interceptor.Chain): Response? {
                 var request: Request = chain.request()
                 if (!CommonUtil.isOnline(MainApplication.applicationContext())) {
-                    val cacheControl = CacheControl.Builder()
+                    val cacheControl = CacheControl.Builder()  // it will give time for how may days cache will store data
                         .maxStale(7, TimeUnit.DAYS)
                         .build()
                     request = request.newBuilder()
@@ -72,17 +72,17 @@ object RetrofitInstance {
                 .build()
         }
     }
-    private fun provideCache(): Cache? {
+    private fun provideCache(): Cache? {   // this will retuen cache size
         var cache: Cache? = null
         try {
             cache = Cache(
                 File(
                     MainApplication.applicationContext().getCacheDir(), "http-cache"
                 ),
-                10 * 1024 * 1024
+                10 * 1024 * 1024   // it will return 10 mb
             ) // 10 MB
         } catch (e: Exception) {
-            Log.e("", "Could not create Cache!")
+            Log.e("", "Could not create Cache!"+e.printStackTrace().toString())  // if cache is not returned
         }
         return cache
     }

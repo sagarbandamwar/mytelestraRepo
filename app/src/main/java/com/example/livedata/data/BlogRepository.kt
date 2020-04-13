@@ -9,32 +9,32 @@ import retrofit2.Response
 import java.util.*
 
 class BlogRepository(private val application: Application) {
-    private var blogs = ArrayList<Blog>()
-    private val mutableLiveData =
-        MutableLiveData<List<Blog>>()
+    private var blogs = ArrayList<Blog>()  // arraylist of data class blog
+    private val mutableLiveData = MutableLiveData<List<Blog>>() // creating referece of mutable live data
 
     fun getMutableLiveData(): MutableLiveData<List<Blog>> {
-        val apiService = RetrofitInstance.apiService
-        val call = apiService.popularBlog
+        val apiService = RetrofitInstance.apiService  // WE ARE CALLING API HERE WITH RETROFIT 2 LIBRARY
+        val call = apiService.popularBlog           // HERE WE RECEIVE THE WHOLE LIST OF BLOGS
         call?.enqueue(object : Callback<BlogWrapper?> {
             override fun onResponse(
                 call: Call<BlogWrapper?>,
                 response: Response<BlogWrapper?>
             ) {
                 val mBlogWrapper = response.body()
-                if (mBlogWrapper != null && mBlogWrapper.getmRows() != null) {
-                    blogs = mBlogWrapper.getmRows() as ArrayList<Blog>
-                    mutableLiveData.value = blogs
+                if (mBlogWrapper != null && mBlogWrapper.rows!= null) {
+                    blogs = mBlogWrapper.rows as ArrayList<Blog>
+                    mutableLiveData.value = blogs     // storing received list to mutable live data
                 }
             }
 
-            override fun onFailure(
+            override fun onFailure(                     // if the network call gets fauled it will call on failure
                 call: Call<BlogWrapper?>,
                 t: Throwable
             ) {
+                t.printStackTrace()                       // printStackTrace it will print the error cause
             }
         })
-        return mutableLiveData
+        return mutableLiveData                           // finally this call will returen mutableLiveData
     }
 
 }
