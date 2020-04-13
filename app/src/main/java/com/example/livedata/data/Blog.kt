@@ -2,36 +2,13 @@ package com.example.livedata.data
 
 import com.google.gson.annotations.SerializedName
 
-class Blog {
+// data class to get array elements
+data class Blog(
     @SerializedName("title")
-     var mTitle: String? = null
+     var title: String? = null,
 
     @SerializedName("description")
-     var mDescription: String? = null
+     var description: String? = null,
 
     @SerializedName("imageHref")
-     var mImageHref: String? = null
-    fun getmTitle(): String? {
-        return mTitle
-    }
-
-    fun setmTitle(mTitle: String?) {
-        this.mTitle = mTitle
-    }
-
-    fun getmDescription(): String? {
-        return mDescription
-    }
-
-    fun setmDescription(mDescription: String?) {
-        this.mDescription = mDescription
-    }
-
-    fun getmImageHref(): String? {
-        return mImageHref
-    }
-
-    fun setmImageHref(mImageHref: String?) {
-        this.mImageHref = mImageHref
-    }
-}
+     var imageHref: String? = null)
