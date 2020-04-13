@@ -18,13 +18,23 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-   lateinit var  mainViewModel : MainViewModel
+   //lateinit var  mainViewModel : MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mainViewModel = ViewModelProviders.of(this@MainActivity).get(MainViewModel::class.java)  // creating reference of view model class
+        if (savedInstanceState == null) {
+            // 2
+            supportFragmentManager
+                // 3
+                .beginTransaction()
+                // 4
+                .add(R.id.root_layout, BlogsFragment.newInstance(), "BlogList")
+                // 5
+                .commit()
+        }
+        /*mainViewModel = ViewModelProviders.of(this@MainActivity).get(MainViewModel::class.java)  // creating reference of view model class
 
         sendGet()  // calls the api and fetch the data from the server
 
@@ -47,12 +57,12 @@ class MainActivity : AppCompatActivity() {
                 CommonUtil.showDialog(getString(R.string.internet_message) ,this) // it will show popup if not connected to internet
                 swipeRefreshLayout.isRefreshing = false
             }
-        }
+        }*/
 
     }
 
     // it will fetch the updated data from view model
-    private fun sendGet() {
+/*    private fun sendGet() {
         swipeRefreshLayout.setRefreshing(true)
         if (CommonUtil.isOnline(MainApplication.applicationContext())) {
             mainViewModel.allBlog
@@ -65,9 +75,9 @@ class MainActivity : AppCompatActivity() {
             CommonUtil.showDialog(getString(R.string.internet_message) ,this)  // it will show popup to connect to internet
             swipeRefreshLayout.isRefreshing = false
         }
-    }
+    }*/
 
-    private fun prepareRecyclerView(blogList: List<Blog>) {
+/*    private fun prepareRecyclerView(blogList: List<Blog>) {
         val linearLayoutManager = LinearLayoutManager(applicationContext)
         recyclerview.layoutManager = linearLayoutManager
         val mBlogAdapter = AdapterRow(
@@ -91,5 +101,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-    }
+    }*/
 }

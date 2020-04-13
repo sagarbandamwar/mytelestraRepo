@@ -39,7 +39,7 @@ dependencies {
     //Retrofit and GSON
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
-    
+
 
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
@@ -62,5 +62,9 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
 
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+
+    def fragment_version = "1.2.4"
+    // Kotlin
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
 
 }

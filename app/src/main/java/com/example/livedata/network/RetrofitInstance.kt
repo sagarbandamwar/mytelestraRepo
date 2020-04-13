@@ -20,10 +20,9 @@ object RetrofitInstance {
     var BASE_URL = "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/"
     private const val CACHE_CONTROL = "Cache-Control"
     val cacheSize = (10 * 1024 * 1024).toLong() // we are declaring our cache size as 10MB
-    val myCache = Cache(MainApplication.applicationContext().cacheDir, cacheSize)
+//    val myCache = Cache(MainApplication.applicationContext()!!.cacheDir, cacheSize)
 
     val okHttpClient = OkHttpClient.Builder()   // creating reference forokhttp client
-        .addInterceptor( provideOfflineCacheInterceptor())
         .addNetworkInterceptor( provideCacheInterceptor())
         .cache(provideCache())
         .build()
@@ -46,7 +45,7 @@ object RetrofitInstance {
             @Throws(IOException::class)
             override fun intercept(chain: Interceptor.Chain): Response? {
                 var request: Request = chain.request()
-                if (!CommonUtil.isOnline(MainApplication.applicationContext())) {
+                if (!CommonUtil.isOnline(MainApplication?.applicationContext())) {
                     val cacheControl = CacheControl.Builder()  // it will give time for how may days cache will store data
                         .maxStale(7, TimeUnit.DAYS)
                         .build()
@@ -77,7 +76,7 @@ object RetrofitInstance {
         try {
             cache = Cache(
                 File(
-                    MainApplication.applicationContext().getCacheDir(), "http-cache"
+                    MainApplication.applicationContext()?.getCacheDir(), "http-cache"
                 ),
                 10 * 1024 * 1024   // it will return 10 mb
             ) // 10 MB
