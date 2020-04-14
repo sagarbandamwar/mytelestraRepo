@@ -76,7 +76,7 @@ object RetrofitInstance {
         try {
             cache = Cache(
                 File(
-                    MainApplication.applicationContext()?.getCacheDir(), "http-cache"
+                    MainApplication.applicationContext().getCacheDir(), "http-cache"
                 ),
                 10 * 1024 * 1024   // it will return 10 mb
             ) // 10 MB
