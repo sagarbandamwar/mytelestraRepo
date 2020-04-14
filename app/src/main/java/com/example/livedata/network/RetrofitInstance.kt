@@ -39,25 +39,6 @@ object RetrofitInstance {
             return retrofit!!.create(RestApiService::class.java)
         }
 
-
-    fun provideOfflineCacheInterceptor(): Interceptor? {  // class for cache offline interceptor
-        return object : Interceptor {
-            @Throws(IOException::class)
-            override fun intercept(chain: Interceptor.Chain): Response? {
-                var request: Request = chain.request()
-                if (!CommonUtil.isOnline(MainApplication?.applicationContext())) {
-                    val cacheControl = CacheControl.Builder()  // it will give time for how may days cache will store data
-                        .maxStale(7, TimeUnit.DAYS)
-                        .build()
-                    request = request.newBuilder()
-                        .cacheControl(cacheControl)
-                        .build()
-                }
-                return chain.proceed(request)
-            }
-        }
-    }
-
     fun provideCacheInterceptor(): Interceptor? {
         return Interceptor { chain ->
             val response = chain.proceed(chain.request())
