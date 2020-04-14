@@ -3,6 +3,7 @@ package com.example.livedata.ui
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +48,7 @@ class BlogsFragment:Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_blog, container, false)
-
+        Log.d(BlogsFragment::class.simpleName ,"Inside BlogsFragment onCreateView")
 
     }
 
@@ -105,6 +106,7 @@ class BlogsFragment:Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d(BlogsFragment::class.simpleName ,"Inside BlogsFragment onViewCreated")
         val activity = activity as Context
         if (activity != null) {
             // mainViewModel = ViewModelProviders.of().get(MainViewModel::class.java)  // creating reference of view model class
